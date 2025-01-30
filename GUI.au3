@@ -38,15 +38,16 @@ $btn_pgn = GUICtrlCreateButton("Tag Changer", 272, 40, 75, 25)
 $btn_createCSV = GUICtrlCreateButton("Create CSV", 272, 72, 75, 25)
 GUISetState(@SW_SHOW)
 #EndRegion ### END Koda GUI section ###
-
+local $Filetree
 While 1
 	$nMsg = GUIGetMsg()
 	Switch $nMsg
 		Case $GUI_EVENT_CLOSE
 			Exit
-
 		Case $btn_folder
-			If IsDeclared("Filetree") Then deleteTreeItems($Filetree)
+			If IsMap($Filetree) Then
+				deleteTreeItems($Filetree)
+			EndIf
 			$dir = FileSelectFolder("Select Folder",@HomePath,0)
 			If @error Then ContinueCase
 			GUICtrlSetData($i_folder,$dir)
@@ -61,6 +62,7 @@ While 1
 				EndIf
 			Next
 			createCSV($map)
+
 		Case Else
 			If $nMsg <= 0 Then ContinueCase
 			If not FileExists($Filetree[$nMsg]) then ContinueCase
